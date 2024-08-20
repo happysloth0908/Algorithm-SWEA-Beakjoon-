@@ -1,0 +1,89 @@
+package baekjoon;
+// 디버깅 해야 함
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class 안전영역_2468 {
+	
+	public static int[] dr = {0, -1, 0, 1}; // 왼쪽부터 시계방향
+	public static int[] dc = {-1, 0, 1, 0};
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int[][] map = MapInput(sc);
+		
+		int max = HighestLand(map);
+		
+		int MAXSafePlace = 0;
+		for (int rainLevel = 1; rainLevel < max; rainLevel++) { // 비 높이가 1~max까지 일때
+			int[][] mapAfterRain = MapAfterRain(map, rainLevel);
+			
+			System.out.println(Arrays.deepToString(mapAfterRain));
+			
+			int safePlaceCount = FindSafePlace(mapAfterRain);
+			if(safePlaceCount > MAXSafePlace) MAXSafePlace = safePlaceCount;
+		}
+		
+		System.out.println(MAXSafePlace);
+		
+		
+	}
+	
+	static int[][] MapInput (Scanner sc){
+		int N = sc.nextInt(); //땅 가로 세로
+		int[][] map = new int[N][N];
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				map[i][j] = sc.nextInt();
+			}
+		}
+		return map;	
+	}
+	
+	static int HighestLand(int[][] map) {
+		int max = 0;
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map.length; j++) {
+				if (max < map[i][j]) max = map[i][j];
+			}
+		}
+		return max;
+	}
+	
+	static int[][] MapAfterRain(int[][] map , int rainLevel){
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map.length; j++) {
+				if (rainLevel == map[i][j]) map[i][j] = 0;
+			}
+		}
+		return map;
+	}
+	
+	static int FindSafePlace(int[][] mapAfterRain) {
+		int safePlaceCount = 0;
+		for (int i = 0; i < mapAfterRain.length; i++) {
+			for (int j = 0; j < mapAfterRain.length; j++) {
+				if (!(mapAfterRain[i][j] == 0)) { 
+					safePlaceCount++;
+					mapAfterRain[i][j] = 0; // 중복으로 세지 않도록 바꾸기
+					EliminateSafePlace(mapAfterRain, i, j);
+				}
+			}
+		}
+		return safePlaceCount;
+	}
+	
+	static int[][] EliminateSafePlace(int[][] mapAfterRain, int i,int j) {
+		for (int d = 0; d < 4; d++) {
+			int nr = i + dr[d];
+			int nc = j + dc[d];
+			if ( nr >= 0 && nc >= 0 && nr < mapAfterRain.length && nc < mapAfterRain.length && !(mapAfterRain[nr][nc] == 0) ) {
+				EliminateSafePlace(mapAfterRain, nr, nc);
+				mapAfterRain[nr][nc] = 0; // 이렇게 하면 재귀 보내기 전 nc 랑 nr 로 계산하려나?
+			}else break;
+		}
+		return mapAfterRain; // 문제!!! 이걸 어디에 돌려주는거야!FindSafePlace 에 돌려주는데 안 써 먹음!!
+	}
+	
+}
