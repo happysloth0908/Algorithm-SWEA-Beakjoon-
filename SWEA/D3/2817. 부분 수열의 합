@@ -1,0 +1,57 @@
+package sounProject;
+
+import java.util.Scanner;
+
+public class 부분수열의합_2817 {
+
+	static int N;
+	static int K;
+	static int[] nums;
+	static int[] sel;
+	static int result;
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int T = sc.nextInt();
+		
+		for (int t = 1; t <= T; t++) {
+			N = sc.nextInt();
+			K = sc.nextInt();	
+			
+			nums = new int[N];
+			sel = new int[N];
+			
+			for (int i = 0; i < N; i++) {
+				nums[i] = sc.nextInt();
+			}
+			
+			부분집합(0);
+			
+			System.out.println("#" + t + " " + result);
+			result = 0;
+		}
+	}
+	
+	private static void 부분집합(int idx) {
+//		int count = 0; //집합을 합쳐서 100이 나오는 경우의 수
+		
+		if(idx == N) {
+			int count = 0;
+			for (int i = 0; i < N; i++) {
+				if (sel[i] == 0)continue;
+//				System.out.print(nums[i] + " ");
+				count += nums[i];
+			}
+			if (count == K) result++; 
+//			System.out.println();
+			return;
+		}
+		
+		sel[idx] = 1;
+		부분집합(idx + 1);
+		
+		sel[idx] = 0;
+		부분집합(idx + 1);
+	}
+	
+}
