@@ -35,44 +35,48 @@ public class Main {
         bfs(a , b);
 
     }
-    static int [] dr = {0, 0, -1, 1};
-    static int [] dc = {-1, 1, 0, 0};
-
-    private static void bfs(int x, int y) {
-        int visited [][] = new int[n][m]; // 여기에 누적합
-        
-        for (int i = 0; i < n; i++) {
+    private static void bfs(int a, int b) {
+    	Queue<int[]> que = new LinkedList<>();
+    	int visited[][] = new int[n][m];
+    	
+    	for (int i = 0; i < n; i++) {
 			Arrays.fill(visited[i], -1);
 		}
-        
-        Queue<int[]> que = new LinkedList<>();
+    	
+    	que.add(new int[] {a,b, 0});
+    	visited[a][b] = 0;
+		
+    	while(!que.isEmpty()) {
+    		int[] curr = que.poll();
+    		
+    		for (int i = 0; i < 4; i++) {
+				int nr = curr[0] + dr[i];
+				int nc = curr[1] + dc[i];
+				
+				if(nr < 0 || nc < 0 || nr >= n || nc >= m || visited[nr][nc] != -1 || arr[nr][nc] == 0) continue;
+				
+				que.add(new int[] {nr, nc, curr[2] + 1 });
+				visited[nr][nc] = curr[2] + 1;
+			}
+    	}
+    	StringBuilder sb = new StringBuilder();
+    	
+    	for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				if(arr[i][j] == 0 ) {
+					sb.append(0 + " ");
+				}else {
+					sb.append(visited[i][j] + " ");
+				}
+			}
+			sb.append("\n");
+		}
+    	
+    	System.out.println(sb);
+    	
+	}
+	static int [] dr = {0, 0, -1, 1};
+    static int [] dc = {-1, 1, 0, 0};
 
-        visited[x][y] = 0;
-        que.add(new int[]{x, y, 0});
 
-        while (!que.isEmpty()) {
-            int[] curr = que.poll();
-            for (int i = 0; i < 4; i++) {
-                int nr = curr[0] + dr[i];
-                int nc = curr[1] + dc[i];
-                if(nr < 0 || nc < 0 || nr >= n || nc >= m || visited[nr][nc] != -1 || arr[nr][nc] == 0) continue;
-                que.add(new int[] {nr, nc, curr[2] + 1});
-                visited[nr][nc] = curr[2] + 1;
-            }
-        }
-//        visited[0][0] = 0;
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-            	if(arr[i][j] == 0 ) {
-            		System.out.print(0 + " ");
-            	}else {
-            		System.out.print(visited[i][j] + " ");
-            	}
-            }
-                System.out.println();
-        }
-
-
-    }
 }
