@@ -17,9 +17,9 @@ public class Main {
 		Queue<Integer> que = new LinkedList<>();
 		
 //		int arr [] = new int [N];
-		for (int i = 0; i < N; i++) {
+		for (int i = 1; i <= N; i++) {
 //			arr[i] = i + 1; // 0 ~ N - 1 인덱스에 1 ~ N 까지 숫자를 넣음
-			que.offer(i + 1); //1 ~ N 까지 숫자를 넣음
+			que.offer(i); //1 ~ N 까지 숫자를 넣음
 		}
 		StringBuilder sb = new StringBuilder();
 		sb.append("<");
