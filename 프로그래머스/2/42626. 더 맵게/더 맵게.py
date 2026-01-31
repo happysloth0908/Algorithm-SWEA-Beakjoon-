@@ -1,7 +1,8 @@
 import heapq
 def solution(scoville, K):
     summ = 0
-    scoville.sort()
+    # scoville.sort()
+    heapq.heapify(scoville)
     while scoville:
         a = heapq.heappop(scoville)
         #아직 부족함
