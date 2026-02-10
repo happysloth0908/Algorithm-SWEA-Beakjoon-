@@ -9,7 +9,7 @@ def solution(sequence, k):
     width = 1000000000
     ans_r = 0
     ans_l = 0
-    while l < length and r < length: 
+    while 1: 
         if current_sum < k:
             
             r += 1 
