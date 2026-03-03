@@ -1,13 +1,18 @@
+# def solution(citations):
+#     answer = 0
+#     citations.sort()
+#     if len(citations) == 1:
+#         return 1
+#     for i in range(len(citations)):
+#         if len(citations) - i <= citations[i]:
+#             # print("멈추기! 이 중 큰 건", citations[i-1], len(citations) - i, max(citations[i-1], len(citations) - i))
+#             return len(citations) - i
+
 def solution(citations):
-    answer = 0
     citations.sort()
-    if len(citations) == 1 and citations[0] == 1:
-        return 1
-    for i in range(len(citations)):
-        if len(citations) - i < citations[i]:
-            # print("아 숫자는", citations[i], "인데 이것보다 큰건 ", len(citations) - i, "밖에 없음")
-            if answer < len(citations) - i: 
-                answer = len(citations) - i
-            break
-        else: answer = citations[i]
-    return answer
+    n = len(citations)
+    for i, c in enumerate(citations):
+        h = n - i
+        if c >= h:
+            return h
+    return 0
