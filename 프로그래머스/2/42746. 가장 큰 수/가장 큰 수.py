@@ -1,11 +1,16 @@
 from functools import cmp_to_key
 def solution(numbers):
     answer = ''
-    string_num = list(map(str, numbers))
-
-    string_num.sort(key=cmp_to_key(lambda x,y : -1 if x+y > y+x else 1) )
-
-    answer = "".join(string_num)
-    answer = int(answer)
-    answer = str(answer)
-    return answer
+    def compare(a,b):
+        if str(a) + str(b) > str(b) + str(a):
+            return -1
+        else: return 1
+    
+    numbers.sort(key=cmp_to_key(compare))
+    # print(numbers)
+    stringy = ""
+    for number in numbers:
+        stringy += str(number)
+    ans = int(stringy)
+    
+    return str(ans)
